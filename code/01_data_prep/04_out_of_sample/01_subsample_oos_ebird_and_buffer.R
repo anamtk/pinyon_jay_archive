@@ -52,7 +52,7 @@ set.seed(1)
 
 #data used in model
 ebird_test <- read_sf(here('data',
-                           'ebird_data',
+                           '01_ebird_data',
                            'cleaned_data',
                            '03_subsampled',
                            'all_ebird_data_conefiltered.shp'))
@@ -63,7 +63,7 @@ test_checks <- ebird_test$chckls_
 #load ebird data and get rid of the checklists from test
 #dataset
 ebird <- read.csv(here('data',
-                       'ebird_data',
+                       '01_ebird_data',
                        'cleaned_data',
                        '02_all_auk_filtered',
                        'all_ebird_data.csv')) %>%
@@ -73,7 +73,7 @@ ebird <- read.csv(here('data',
 
 #for masking to
 pinyonba_rast <- terra::rast(here('data',
-                                  'spatial_data',
+                                  '02_spatial_data',
                                   'pinyonBA',
                                   'PinyonBA_4km_sqmPerHa.tif'))
 
@@ -284,7 +284,7 @@ ebird_buffer3 <- ebird_buffer2 %>%
 # Export ------------------------------------------------------------------
 
 st_write(ebird_buffer3, here('data',
-                             'ebird_data',
+                             '01_ebird_data',
                              'cleaned_data',
                              "05_oos",
                              'all_oos_ebird_data_buffercellIDs.shp'))
@@ -292,7 +292,7 @@ st_write(ebird_buffer3, here('data',
 
 #old code that takes one cell per observation
 st_write(ebird_spatial4, here('data',
-                      'ebird_data',
+                      '01_ebird_data',
                       'cleaned_data',
                       "05_oos",
                       'all_oos_ebird_data_conefiltered.shp'))

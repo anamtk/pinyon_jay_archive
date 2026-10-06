@@ -40,7 +40,7 @@ theme_set(theme_bw())
 
 
 ebird <- read_sf(here('data',
-                      'ebird_data',
+                      '01_ebird_data',
                       'cleaned_data',
                       "05_oos",
                       'all_oos_ebird_data_conefiltered.shp')) %>%
@@ -58,7 +58,7 @@ ebird <- read_sf(here('data',
   rename(blobID = cellID)
 
 ebird_blobIDs <- read.csv(here('data',
-                               'ebird_data',
+                               '01_ebird_data',
                                'cleaned_data',
                                '05_oos',
                                'ebird_oos_cellIDlists.csv')) %>%
@@ -67,37 +67,37 @@ ebird_blobIDs <- read.csv(here('data',
   rename(cellID = cell)
 
 cones <- read.csv(here('data',
-                       'spatial_data',
+                       '02_spatial_data',
                        'cleaned_data',
                        '03_oos',
                        'oos_cones_weighted_mean_blob.csv'))
 
 temp <- read.csv(here('data',
-                      'spatial_data',
+                      '02_spatial_data',
                       'cleaned_data',
                       '03_oos',
                       'oos_temp_weighted_mean_blob.csv'))
 
 tmean <- read.csv(here('data',
-                       'spatial_data',
+                       '02_spatial_data',
                        'cleaned_data',
                        '03_oos',
                        'oos,tmean_weighted_mean_blob.csv'))
 
 ppt <- read.csv(here('data',
-                     'spatial_data',
+                     '02_spatial_data',
                      'cleaned_data',
                      '03_oos',
                      'oos_ppt_weighted_mean_blob.csv'))
 
 monsoon <- read.csv(here('data',
-                         'spatial_data',
+                         '02_spatial_data',
                          'cleaned_data',
                          '03_oos',
                          'oos_monsoon_weighted_mean_blob.csv'))
 
 pinyon <- read.csv(here('data',
-                        'spatial_data',
+                        '02_spatial_data',
                         'cleaned_data',
                         '03_oos',
                         'oos_pinyonBA_weighted_mean_blob.csv'))
@@ -534,7 +534,7 @@ data_list <- list(#latent N loop:
                   n.checklists = n.checklists)
 
 saveRDS(data_list, here('data',
-                        'jags_input_data',
+                        '03_jags_input_data',
                         'oos',
                         'oos_ebird_data_list_nospuncert.RDS'))
 
@@ -548,7 +548,7 @@ saveRDS(data_list, here('data',
 
 saveRDS(ebird_index_df, 
         here('data',
-             'ebird_data',
+             '01_ebird_data',
              'cleaned_data',
              '05_oos',
              'oos_ebird_check_blob_yr_ids.RDS'))

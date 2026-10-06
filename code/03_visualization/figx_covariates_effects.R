@@ -28,12 +28,12 @@ betas <- readRDS(here('monsoon',
 
 
 beta_samples <- readRDS(here('monsoon',
-                           'outputs',
-                           'ebird_abund_model_covariate_effect_samples.RDS'))
+                             'outputs',
+                             'ebird_abund_model_covariate_effect_samples.RDS'))
 
 beta_samps <- bind_rows(as.data.frame(beta_samples[[1]]),
-                          as.data.frame(beta_samples[[2]]),
-                          as.data.frame(beta_samples[[3]])) %>%
+                        as.data.frame(beta_samples[[2]]),
+                        as.data.frame(beta_samples[[3]])) %>%
   mutate(sample = 1:n()) %>%
   pivot_longer(-sample,
                names_to = "parm",
@@ -93,8 +93,22 @@ pinyon <- read.csv(here('data',
   filter(blobnum %in% all_blobs$blobnum)
 
 variable_importance <- readRDS(here('data',
-             '06_variable_importance',
-             'variable_relative_importance.RDS'))
+                                    '06_variable_importance',
+                                    'variable_relative_importance.RDS'))
+
+r2 <- readRDS(here('monsoon',
+                   'outputs',
+                   'ebird_abund_model_yyrepr2.RDS')) %>%
+  mutate(model = "full") 
+r2_nocone <- readRDS(here('monsoon',
+                          'outputs',
+                          'ebird_abund_model_yyrepr2_climatehabitat.RDS'))  %>%
+  mutate(model = "nocone") 
+
+r2_null <- readRDS(here('monsoon',
+                        'outputs',
+                        'ebird_abund_model_yyrepr2_null.RDS')) %>%
+  mutate(model = "null")
 
 # Filter and scale all covariate datasets ---------------------------------
 
@@ -205,10 +219,10 @@ corr_beta_df <- as.data.frame(do.call(rbind, beta_list))
 corr_beta_sum <- corr_beta_df %>%
   group_by(covariate) %>%
   summarise(median = median(value_corrected),
-         lci = quantile(value_corrected, probs = c(0.025),
-                        type = 8),
-         uci = quantile(value_corrected, probs = c(0.975),
-                        type = 8)) %>%
+            lci = quantile(value_corrected, probs = c(0.025),
+                           type = 8),
+            uci = quantile(value_corrected, probs = c(0.975),
+                           type = 8)) %>%
   mutate(type = case_when(covariate %in% c("Cones", "Monsoon",
                                            "PPT", "PinyonBA",
                                            "Tmax") ~ "Main effects",
@@ -218,7 +232,7 @@ corr_beta_sum <- corr_beta_df %>%
                                            "ConexTmax") ~ "Interactions",
                           TRUE ~ NA_character_)) %>%
   mutate(covariate = case_when(covariate == "Monsoon" ~ "Monsoonality",
-                               covariate == "Cones" ~ "Pinyon (seed) cone availability",
+                               covariate == "Cones" ~ "Cone production",
                                covariate == "PinyonBA" ~ "Pinyon basal area (BA)",
                                covariate == "PPT" ~ "Precipitation (PPT)",
                                covariate == "Tmax" ~ "Maximum temperature (Tmax)",
@@ -227,7 +241,7 @@ corr_beta_sum <- corr_beta_df %>%
                                covariate == "ConexPPT" ~ "Cones x PPT",
                                covariate == "ConexTmax" ~ "Cones x Tmax",
                                TRUE ~ covariate))
-  
+
 
 saveRDS(corr_beta_sum, here('data',
                             '04_jags_output_data',
@@ -236,17 +250,17 @@ saveRDS(corr_beta_sum, here('data',
 
 
 (covariate_betas <- corr_beta_sum %>%
-  filter(covariate != 'a0') %>%
+   filter(covariate != 'a0') %>%
    mutate(type = factor(type, levels = c("Main effects", "Interactions"))) %>%
-  ggplot() +
-  geom_vline(xintercept = 0, linetype = 2) +
-  geom_pointrange(aes(x = median, 
-                      y = reorder(covariate, median),
-                      xmin = lci,
-                      xmax = uci),
-                  size = 0.25) + 
-  labs(x = "Covariate effect\n(median and 95% CI)",
-       y = "Covariate") +
+   ggplot() +
+   geom_vline(xintercept = 0, linetype = 2) +
+   geom_pointrange(aes(x = median, 
+                       y = reorder(covariate, median),
+                       xmin = lci,
+                       xmax = uci),
+                   size = 0.25) + 
+   labs(x = "Covariate effect\n(median and 95% CI)",
+        y = "Covariate") +
    facet_grid(type~., scales ="free") +
    theme(strip.background = element_rect(fill = "white",
                                          color = "white"),
@@ -257,8 +271,8 @@ saveRDS(corr_beta_sum, here('data',
 
 ggsave(plot = covariate_betas,
        here('pictures',
-                   'final',
-                   'covariate_effects.jpg'),
+            'final',
+            'covariate_effects.jpg'),
        width = 6.25,
        height = 4,
        dpi = 300,
@@ -271,49 +285,120 @@ variable_importance %>%
   mutate(variable = factor(variable, levels = c("PPT", "Temp",
                                                 "PinyonBA", 
                                                 "Monsoon", "Cone")) )%>%
-ggplot()+
+  ggplot()+
   geom_bar(aes(x = variable, y = relative_importance),
            stat = 'identity') +
   scale_x_discrete(labels = c("Monsoon" = "Monsoonality", 
-                              "Cone" = "Pinyon (seed) cone availability",
+                              "Cone" = "Pinyon (seed) cone production",
                               "PinyonBA" = "Pinyon basal area (BA)",
                               "PPT" = "Precipitation (PPT)",
                               "Temp" = "Maximum temperature (Tmax)")) +
   coord_flip()
 
 (imp_graph <- variable_importance %>%
-  mutate(var_type = case_when(variable %in% c("Monsoon", "PinyonBA") ~ "Habitat",
-                              variable %in% c("PPT", "Temp") ~ "Climate",
-                              TRUE ~ "Cones")) %>%
-  mutate(var_type = factor(var_type, levels = c("Cones","Climate", "Habitat"))) %>%
-  group_by(var_type) %>%
-  summarise(relative_importance = sum(relative_importance)) %>%
-  ggplot() +
-  geom_bar(aes(x = 1, y = relative_importance, fill = var_type),
-           stat = "identity",
-           width = 0.1,
-           color = "black") +
-  geom_text(aes(x = 1, y = relative_importance, group = var_type,
-                label = paste0(var_type, "\n", round(relative_importance*100, 0), "%")),
-            position = position_stack(vjust = 0.5 )) +
-  scale_y_continuous(labels = function(x) x * 100,
-                     name = "Relative importance (%)",
-                     position = "right") +
-  #xlim(0.95, 1.4) +
-  theme_minimal(base_size = 16) +
-  theme(legend.position ="none",
-        axis.text.x = element_blank(),
-        axis.title.x = element_blank(),
-        axis.tick.x = element_blank()) +
-  scale_fill_manual(values = c('#d9d9d9', '#bdbdbd','#969696')))
+    mutate(var_type = case_when(variable %in% c("Monsoon", "PinyonBA") ~ "Habitat",
+                                variable %in% c("PPT", "Temp") ~ "Climate",
+                                TRUE ~ "Cones")) %>%
+    mutate(var_type = factor(var_type, levels = c("Cones","Climate", "Habitat"))) %>%
+    group_by(var_type) %>%
+    summarise(relative_importance = sum(relative_importance)) %>%
+    ggplot() +
+    geom_bar(aes(x = 1, y = relative_importance, fill = var_type),
+             stat = "identity",
+             width = 0.1,
+             color = "black") +
+    geom_text(aes(x = 1, y = relative_importance, group = var_type,
+                  label = paste0(var_type, "\n", round(relative_importance*100, 0), "%")),
+              position = position_stack(vjust = 0.5 )) +
+    scale_y_continuous(labels = function(x) x * 100,
+                       name = "Relative importance (%)",
+                       position = "right") +
+    #xlim(0.95, 1.4) +
+    theme_minimal(base_size = 16) +
+    theme(legend.position ="none",
+          axis.text.x = element_blank(),
+          axis.title.x = element_blank(),
+          axis.tick.x = element_blank()) +
+    scale_fill_manual(values = c('#d9d9d9', '#bdbdbd','#969696')))
 
 covariate_betas + imp_graph +
-  plot_layout(widths = c(4,1))
+  plot_layout(widths = c(4,1))+
+  plot_annotation(tag_levels = "a",
+                  tag_suffix = ")")
 
 ggsave(here('pictures',
             'final',
             'covariate_effects_and_importance.jpg'),
-       width = 6.75,
+       width = 7,
        height = 4,
        dpi = 300,
        units = "in")
+
+
+# R2 ----------------------------------------------------------------------
+
+r2_null_sum <- r2_null %>%
+  summarise(r2 = mean(R2)) %>%
+  dplyr::select(r2) %>%
+  as_vector()
+
+r2_full_sum <- r2 %>%
+  summarise(r2 = mean(R2)) %>%
+  dplyr::select(r2) %>%
+  as_vector()
+
+r2_nocone_sum <- r2_nocone %>%
+  summarise(r2 = mean(R2)) %>%
+  dplyr::select(r2) %>%
+  as_vector()
+
+r2_cont_habclim <- r2_nocone_sum-r2_null_sum
+r2_cont_cone <- r2_full_sum-r2_nocone_sum
+r2_cont_covs <- r2_full_sum-r2_null_sum
+
+r2_df <- as.data.frame(cbind(model = c("Cones", "Habitat & \n Climate"),
+                             r2_cont = c(r2_cont_cone,
+                                         r2_cont_habclim))) %>%
+  mutate(total_r2cont = r2_cont_covs) %>%
+  mutate(r2_cont = as.numeric(r2_cont)) %>%
+  rowwise() %>%
+  mutate(proportion_r2 = r2_cont/total_r2cont)
+
+(r2_graph <- r2_df %>%
+    ggplot() +
+    geom_bar(aes(x = 1, y = proportion_r2, fill = model),
+             stat = "identity",
+             width = 0.1,
+             color = "black") +
+    geom_text(aes(x = 1, y = proportion_r2, group = model,
+                  label = paste0(model, "\n", round(proportion_r2*100, 0), "%")),
+              position = position_stack(vjust = 0.5 )) +
+    scale_y_continuous(labels = function(x) x * 100,
+                       name = expression(paste("Relative contribution to ", R^2, " (%)")),
+                       #name = "Relative contribution to R2 (%)",
+                       position = "right") +
+    #xlim(0.95, 1.4) +
+    theme_minimal(base_size = 16) +
+    theme(legend.position ="none",
+          axis.text.x = element_blank(),
+          axis.title.x = element_blank(),
+          axis.tick.x = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank()) +
+    scale_fill_manual(values = c('#67A9CF', '#d9d9d9'))
+)
+
+covariate_betas + r2_graph +
+  plot_layout(widths = c(4,1))+
+  plot_annotation(tag_levels = "a",
+                  tag_suffix = ")")
+
+
+ggsave(here('pictures',
+            'final',
+            'covariate_effects_and_r2.jpg'),
+       width = 8,
+       height = 4,
+       dpi = 300,
+       units = "in")
+

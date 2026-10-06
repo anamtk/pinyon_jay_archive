@@ -641,7 +641,7 @@ data_list <- list(#latent N loop:
                   n.checklists = n.checklists)
 
 saveRDS(data_list, here('data',
-                        'jags_input_data',
+                        '03_jags_input_data',
                         'ebird_data_list_nospuncert.RDS'))
 
 inits_list <- list(list(N = N),
@@ -649,12 +649,12 @@ inits_list <- list(list(N = N),
                    list(N = N))
 
 saveRDS(inits_list, here('data',
-                        'jags_input_data',
+                        '03_jags_input_data',
                         'ebird_init_list_nospuncert.RDS'))
 
 saveRDS(ebird_index_df, 
         here('data',
-             'ebird_data',
+             '01_ebird_data',
              'cleaned_data',
              '04_JAGS_indexIDs',
              'ebird_check_blob_yr_ids.RDS'))

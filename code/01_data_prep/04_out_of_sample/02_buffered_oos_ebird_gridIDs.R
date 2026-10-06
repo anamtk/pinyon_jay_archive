@@ -20,7 +20,7 @@ for(i in package.list){library(i, character.only = T)}
 
 #for masking to
 pinyonba_rast <- terra::rast(here('data',
-                                  'spatial_data',
+                                  '02_spatial_data',
                                   'pinyonBA',
                                   'PinyonBA_4km_sqmPerHa.tif'))
 
@@ -29,7 +29,7 @@ pinyonba_df <- terra::as.data.frame(pinyonba_rast,
                                     cells = TRUE)
 
 ebird_buffer <- read_sf(here('data',
-                           'ebird_data',
+                           '01_ebird_data',
                            'cleaned_data',
                            "05_oos",
                            'all_oos_ebird_data_buffercellIDs.shp')) %>%
@@ -71,7 +71,7 @@ cells <- ebird_df2 %>%
 
 write.csv(ebird_df2,
           here('data',
-               'ebird_data',
+               '01_ebird_data',
                'cleaned_data',
                '05_oos',
                'ebird_oos_cellIDlists.csv'))
@@ -79,7 +79,7 @@ write.csv(ebird_df2,
 
 write.csv(cells, 
           here('data',
-               'spatial_data',
+               '02_spatial_data',
                'cleaned_data',
                '05_oos',
                'oos_cellIDs.csv'))

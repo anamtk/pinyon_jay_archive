@@ -230,7 +230,7 @@ ebird_buffer2 <-  ebird_buffer %>%
 # Export ------------------------------------------------------------------
 
 st_write(ebird_buffer2, here('data',
-                             'ebird_data',
+                             '01_ebird_data',
                              'cleaned_data',
                              '03_subsampled',
                              'all_ebird_data_buffercellIDs.shp'))
@@ -238,7 +238,7 @@ st_write(ebird_buffer2, here('data',
 
 #old code that takes one cell per observation
 st_write(ebird_spatial4, here('data',
-                      'ebird_data',
+                      '01_ebird_data',
                       'cleaned_data',
                       '03_subsampled',
                       'all_ebird_data_conefiltered.shp'))

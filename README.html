@@ -352,9 +352,9 @@ display: none;
 </div>
 
 
-<div id="title-data-and-code-for-models-of-relationships-between-pinyon-jay-abundance-and-cone-availability-using-ebird" class="section level1">
+<div id="title-data-and-code-for-models-of-relationships-between-pinyon-jay-abundance-and-cone-availability-using-ebird-data" class="section level1">
 <h1>Title: Data and code for models of relationships between pinyon jay
-abundance and cone availability using eBird</h1>
+abundance and cone availability using eBird data</h1>
 </div>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
@@ -398,7 +398,7 @@ visualizations.</p>
 <td>P</td>
 <td>Wion</td>
 <td>Forest Stewards Guild</td>
-<td>awion@forestguild.org</td>
+<td>andreas@nmhu.edu</td>
 </tr>
 <tr class="odd">
 <td>Kyle</td>
@@ -558,12 +558,12 @@ with this dataset.</p>
 <td>Two-needle pinyon pine yearly cone production data</td>
 <td><a href="https://datadryad.org/dataset/doi:10.5061/dryad.7h44j103t" class="uri">https://datadryad.org/dataset/doi:10.5061/dryad.7h44j103t</a></td>
 <td>Andreas Wion</td>
-<td>awion@forestguild.org</td>
+<td>andreas@nmhu.edu</td>
 </tr>
 <tr class="even">
-<td></td>
-<td></td>
-<td></td>
+<td>PRISM Climate data</td>
+<td><a href="https://www.prism.oregonstate.edu" class="uri">https://www.prism.oregonstate.edu</a></td>
+<td>PRISM Group at Oregon State University</td>
 <td></td>
 </tr>
 </tbody>
@@ -571,36 +571,26 @@ with this dataset.</p>
 </div>
 <div id="data-tables" class="section level1">
 <h1>Data Tables</h1>
-<p>This repository includes many (~75-100) data files. Many are produced
-as downstream products of data processing steps. Rather than include
-metadata on all of these data files, I include general descriptions of
-all of the data folders and their contents.</p>
+<p>The analyses for this project requires raw data that can be
+downloaded from original data provenances listed above. Rather than
+providing many of these original (large) raw files, which users can
+download from the above links, we provide several intermediate data
+products, including the subset eBird checklists and the final data list
+used to run the JAGS Bayesian model. We chose not to include all
+intermediate data files; rather, users can use the code provided to
+generate these themselves from the data processing steps.</p>
 <div id="data-folder" class="section level2">
 <h2>Data Folder</h2>
 </div>
 <div id="folder-01_ebird_data" class="section level2">
 <h2>Folder: 01_ebird_data</h2>
-<p>This folder contains both raw and processed data from eBird. The
-subfolders that begin with <strong>ebd</strong> are the datasets
-directly downloaded from eBird; the <strong>pinjay_range_2023</strong>
-folder contains processed range maps from EBird Status and Trends (<a href="https://science.ebird.org/en/status-and-trends" class="uri">https://science.ebird.org/en/status-and-trends</a>).</p>
 </div>
 <div id="subfolder-cleaned_data" class="section level2">
 <h2>Subfolder: cleaned_data</h2>
-<div id="subfolder-01_auk_filtering" class="section level3">
-<h3>Subfolder: 01_auk_filtering</h3>
-<p>This subfolder contains outputs from filtering eBird data with the
-auk package in R</p>
-</div>
-<div id="subfolder-02_all_auk_filtered" class="section level3">
-<h3>Subfolder: 02_all_auk_filtered</h3>
-<p>This folder contains a dataset that combines the results of each
-state-level filtering process in the above folder</p>
-</div>
 <div id="subfolder-03_subsampled" class="section level3">
 <h3>Subfolder: 03_subsampled</h3>
-<p>This folder contains data (both .csv and spatial) of eBird data that
-was processed using eBird standard practices (<a href="https://ebird.github.io/ebird-best-practices/" class="uri">https://ebird.github.io/ebird-best-practices/</a>) to reduce
+<p>This folder contains data (spatial) of eBird data that was processed
+using eBird standard practices (<a href="https://ebird.github.io/ebird-best-practices/" class="uri">https://ebird.github.io/ebird-best-practices/</a>) to reduce
 spatial and temporal sampling bias. <strong>These are the data that we
 used in our regression model exploring relationships between jays and
 cones</strong>.</p>
@@ -624,37 +614,6 @@ those checklists that were used to train the model.</p>
 <p>This folder contains spatial data for all covariates and also cleaned
 datasets that link spatial information from those datasets to the eBird
 dataset</p>
-<div id="subfolder-cleaned_data-1" class="section level3">
-<h3>Subfolder: cleaned_data</h3>
-<p>This subfolder contains all the cleaned data and cleaning steps to
-get final covariate data.</p>
-<div id="sub-subfolder-00_metadata" class="section level4">
-<h4>Sub-subfolder: 00_metadata</h4>
-<p>This folder contains a dataset that has all the unique grid cell IDs
-for rasters to be able to link raster cell/grid IDs across eBird and
-covariate datasets</p>
-</div>
-<div id="sub-subfolder-01_get_gridids" class="section level4">
-<h4>Sub-subfolder: 01_get_gridIDs</h4>
-<p>These datasets are the product of processing steps and link original
-spatial data for each covariate to the cell IDs present for eBird
-checklist locations.</p>
-</div>
-<div id="sub-subfolder-02_weighted_blob_covariates" class="section level4">
-<h4>Sub-subfolder: 02_weighted_blob_covariates</h4>
-<p>These datasets are processed from the <strong>01_get_gridIDs</strong>
-datasets and include weighted average covariate values at the level of
-the multi-polygon surrounding each set of eBird checklists in a location
-and their sampling location uncertainty buffer.</p>
-</div>
-<div id="sub-subfolder-03_oos" class="section level4">
-<h4>Sub-subfolder: 03_oos</h4>
-<p>These datasets are the repeat of the <strong>00_metadata</strong> and
-<strong>02_weighted_blob_covariates</strong> datasets for the out of
-sample data. These datasets were produced in the same way as those used
-for the training data.</p>
-</div>
-</div>
 <div id="subfolder-masting_data" class="section level3">
 <h3>Subfolder: masting_data</h3>
 <p>This folder contains both the original
@@ -673,21 +632,6 @@ the SW region.</p>
 <p>This folder contains the pinyon basal area data that was combined
 from two sources and then annualized for use in analyses (final dataset
 used: PinyonBA_4km_sqmPerHa.tif).</p>
-</div>
-<div id="subfolder-prism_monthly_ppt" class="section level3">
-<h3>Subfolder: prism_monthly_ppt</h3>
-<p>This folder contains many subfolders that include gridded monthly
-precipitation data downloaded from PRISM.</p>
-</div>
-<div id="subfolder-prism_monthly_tmax" class="section level3">
-<h3>Subfolder: prism_monthly_tmax</h3>
-<p>This folder contains many subfolders that include gridded monthly
-maximum temperature data downloaded from PRISM.</p>
-</div>
-<div id="subfolder-prism_monthly_tmean" class="section level3">
-<h3>Subfolder: prism_monthly_tmean</h3>
-<p>This folder contains many subfolders that include gridded monthly
-mean temperature data downloaded from PRISM.</p>
 </div>
 </div>
 <div id="folder-03_jags_input_data" class="section level2">
@@ -711,20 +655,8 @@ model</p>
 <p>This folder contains the out-of-sample RMSE values we used to compare
 to the test data RMSE values for model validation.</p>
 </div>
-<div id="folder-06_variable_importance" class="section level2">
-<h2>Folder: 06_variable_importance</h2>
-<p>This folder contains data derived from computing the variable
-importance for each individual variable using permuted variable
-importance.</p>
-</div>
-<div id="monsoon-folder" class="section level2">
-<h2>Monsoon Folder</h2>
-</div>
-<div id="folder-inputs" class="section level2">
-<h2>Folder: inputs</h2>
-<p>The subfolder in this folder <strong>00_data_lists</strong> contains
-replicates of the JAGS input data list and the initial values list
-described above</p>
+<div id="hpc-scripts-folder" class="section level2">
+<h2>HPC Scripts Folder</h2>
 </div>
 <div id="folder-outputs" class="section level2">
 <h2>Folder: outputs</h2>
@@ -746,58 +678,10 @@ spatial autocorrelation</p></li>
 <li><p>ebird_abund_model_covariate_effect_samples.RDS - samples of
 covariate effects used to standardize covariate effects based on weights
 for covariate effect visualization</p></li>
+<li><p>ebird_abund_model_yyrepr2_[othervariables]: R2 values between y
+and replicated data for all sub-models used to determine the relative
+contribution of cone effects on overall R2</p></li>
 </ul>
-</div>
-</div>
-<div id="spatial-data-objects" class="section level1">
-<h1>Spatial Data Objects</h1>
-<p>Several of the datasets listed above are spatial datasets, but we
-list the spatial datasets here explicitly</p>
-<div id="ebird_data---cleaned_data---03_subsampled" class="section level4">
-<h4>01_ebird_data -&gt; cleaned_data -&gt; 03_subsampled</h4>
-<p><strong>all_ebird_data_buffercellIDs.shp</strong></p>
-<p>The eBird checklists including the cellIDs for all raster grid cells
-in the spatial uncertainty in sampling location, based on the travel
-distance for each checklist</p>
-<p><strong>all_ebird_data_conefiltered.shp</strong></p>
-<p>Legacy dataset that doesn’t buffer around each checklist point</p>
-</div>
-<div id="ebird_data---cleaned_data---05_oos" class="section level4">
-<h4>01_ebird_data -&gt; cleaned_data -&gt; 05_oos</h4>
-<p><strong>all_oos_ebird_data_buffercellIDs.shp</strong></p>
-<p>The same dataset as that for the test data, but processed for the
-out-of-sample dataset</p>
-</div>
-<div id="spatial_data---masting_data" class="section level4">
-<h4>02_spatial_data -&gt; masting_data</h4>
-<p>These are spatial yearly tif files for cone production (processed
-data is in <strong>ConePredictions_final.tif</strong></p>
-</div>
-<div id="spatial_data---monsoon" class="section level4">
-<h4>02_spatial_data -&gt; monsoon</h4>
-<p>These are spatial data (.tif) on monsoon percent contribution across
-the SW region</p>
-</div>
-<div id="spatial_data---pinyonba" class="section level4">
-<h4>02_spatial_data -&gt; pinyonBA</h4>
-<p>These are spatial data on pinyon basal area in the SW, including a
-final processed dataset used in our analyses
-(<strong>PinyonBA_4km_sqmPerHa.tif</strong>)</p>
-</div>
-<div id="spatial_data---prism_monthly_ppt" class="section level4">
-<h4>02_spatial_data -&gt; prism_monthly_ppt</h4>
-<p>These are data downloaded using the prism package in R on monthly
-spatial precipitation values</p>
-</div>
-<div id="spatial_data---prism_monthly_tmax" class="section level4">
-<h4>02_spatial_data -&gt; prism_monthly_tmax</h4>
-<p>These are data downloaded using the prism package in R on monthly
-spatial maximum temperature values</p>
-</div>
-<div id="spatial_data---prism_monthly_tmean" class="section level4">
-<h4>02_spatial_data -&gt; prism_monthly_tmean</h4>
-<p>These are data downloaded using the prism package in R on monthly
-spatial mean temperature values</p>
 </div>
 </div>
 <div id="scriptscode" class="section level1">
@@ -925,39 +809,40 @@ sample dataset</td>
 <td>R</td>
 </tr>
 <tr class="odd">
-<td>04_permuted_variable_importance_function.R</td>
-<td>code/02_analyses</td>
-<td>Function to determine variable importance via permutation</td>
-<td>R</td>
-</tr>
-<tr class="even">
 <td>figx_cone_weights.R</td>
 <td>code/03_visualization</td>
 <td>figure of yearly cone weights</td>
 <td>R</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>figx_covariates_effects.R</td>
 <td>code/03_visualization</td>
 <td>figure of all covariate effects</td>
 <td>R</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>figx_interaction_plots.R</td>
 <td>code/03_visualization</td>
 <td>figure of interactions between cones and other variables</td>
 <td>R</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>figx_maps.R</td>
 <td>code/03_visualization</td>
 <td>map figure with 3 panels</td>
 <td>R</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>FigX_R2_contributions.R</td>
 <td>code/03_visualization</td>
 <td>contributions of different covariate groups to R2</td>
+<td>R</td>
+</tr>
+<tr class="even">
+<td>FigX_PlottingFuturePreds.R</td>
+<td>code/03_visualization</td>
+<td>code to produce map figure of future cone and basal area
+predictions</td>
 <td>R</td>
 </tr>
 <tr class="odd">
@@ -988,103 +873,103 @@ cone abundance</td>
 </tr>
 <tr class="odd">
 <td>ebird_abund_JAGS_checkN.R</td>
-<td>monsoon/inputs/01_run_model</td>
+<td>hpc/inputs/01_run_model</td>
 <td>replicate JAGS Bayesian model</td>
 <td>JAGS</td>
 </tr>
 <tr class="even">
 <td>script_checkN.R</td>
-<td>monsoon/inputs/01_run_model</td>
+<td>hpc/inputs/01_run_model</td>
 <td>JAGS wrapper script to run the JAGS model</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>script2_checkN.R</td>
-<td>monsoon/inputs/01_run_model</td>
+<td>hpc/inputs/01_run_model</td>
 <td>JAGS wrapper script to include initials from first script and re-run
 JAGS model</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>GOF.R</td>
-<td>monsoon/inputs/02_coverged_model</td>
+<td>hpc/inputs/02_coverged_model</td>
 <td>get replicated data, RMSE, covariate samples from converged
 model</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>summary.R</td>
-<td>monsoon/inputs/02_coverged_model</td>
+<td>hpc/inputs/02_coverged_model</td>
 <td>get summary of covariate effects from converged model</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>y_yrep_r2.R</td>
-<td>monsoon/inputs/02_coverged_model</td>
+<td>hpc/inputs/02_coverged_model</td>
 <td>get R2 value between observed and replicated data for the converged
 model</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>ebird_abund_JAGS_checkN_climateonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>JAGS model including only climate main effects</td>
 <td>JAGS</td>
 </tr>
 <tr class="even">
 <td>ebird_abund_JAGS_checkN_habitatonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>JAGS model including only habitat main effects</td>
 <td>JAGS</td>
 </tr>
 <tr class="odd">
 <td>GOF_climateonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>get replicated data for the climate only model</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>GOF_habitatonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>get replicated data for the habitat only model</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>script_checkN_climateonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>run the climate only model</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>script_checkN_habitatonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>run the habitat only model</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>script2_checkN_climateonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>update the climate only model with initials from previous model run
 and rerun</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>script2_checkN_habitatonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>update the habitat only model with initials from the previous model
 run and rerun</td>
 <td>R</td>
 </tr>
 <tr class="odd">
 <td>y_yrep_r2_climateonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>R2 between replicated and observed data for the climate only
 model</td>
 <td>R</td>
 </tr>
 <tr class="even">
 <td>y_yrep_r2_habitatonly.R</td>
-<td>monsoon/inputs/03_variable_importance</td>
+<td>hpc/inputs/03_variable_importance</td>
 <td>R2 between replicated and observed data for the habitat only
 model</td>
 <td>R</td>
